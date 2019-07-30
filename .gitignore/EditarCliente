@@ -1,3 +1,5 @@
+// Se importan todas las paqueterias a utlizar
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,28 +15,27 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class EditarCliente extends JFrame {
+// Variables de tipo públicas para el fácil acceso de las mismas, en la 
+// pestaña principal.
 
-   public CampoDato NombreResponsabletxt;
-   public CampoDato Telefonotxt;
-   public JTextField Correotxt;
-   public CampoDato Calletxt;
-   public CampoDato Numtxt;
-   public CampoDato Coltxt;
-   public CampoDato Municipiotxt;
-   public CampoDato Estadotxt;
-    PreparedStatement psd;   
+    public CampoDato NombreResponsabletxt;
+    public CampoDato Telefonotxt;
+    public JTextField Correotxt;
+    public CampoDato Calletxt;
+    public CampoDato Numtxt;
+    public CampoDato Coltxt;
+    public CampoDato Municipiotxt;
+    public CampoDato Estadotxt;
+    PreparedStatement psd;
     ResultSet rs;
     ModeloTabla_Cliente modelo = new ModeloTabla_Cliente("dirtycod_dirty", "dirtycode");
-    // Método para generar los Jpanel y TextField, corrrespondientes 
 
-//    EditarCliente(int id, String nombre,int numeroCalle, String calle, String col,String municipio,String estado,
-//    String correo, int telefono) {
-EditarCliente(int id) {
+    // Método para generar los Jpanel y TextField, corrrespondientes 
+    EditarCliente(int id) {
         setSize(900, 600);
         setTitle("Editar clientes");
-         setResizable(false);
-         setVisible(true);
-       
+        setResizable(false);
+        setVisible(true);
 
         JPanel Clientes = new JPanel();
         Clientes.setLayout(null);
@@ -55,15 +56,13 @@ EditarCliente(int id) {
         nombresResponsable.setBounds(0, 30, 280, 230);
         Clientes.add(nombresResponsable);
 
-         NombreResponsabletxt = new CampoDato();
+        NombreResponsabletxt = new CampoDato();
         NombreResponsabletxt.setForeground(Color.black);
         NombreResponsabletxt.setBounds(128, 135, 575, 30);
         NombreResponsabletxt.setBorder(null);
         NombreResponsabletxt.setTipo('T');
         NombreResponsabletxt.setLongitud(80);
         Clientes.add(NombreResponsabletxt);
-
-
 
         JLabel Telefono = new JLabel("Télefono:");
         Telefono.setForeground(Color.white);
@@ -72,7 +71,7 @@ EditarCliente(int id) {
         Telefono.setBounds(0, 70, 200, 230);
         Clientes.add(Telefono);
 
-         Telefonotxt = new CampoDato();
+        Telefonotxt = new CampoDato();
         Telefonotxt.setForeground(Color.black);
         Telefonotxt.setBounds(128, 176, 200, 30);
         Telefonotxt.setBorder(null);
@@ -137,7 +136,7 @@ EditarCliente(int id) {
         colonia.setBounds(588, 166, 300, 300);
         Clientes.add(colonia);
 
-         Coltxt = new CampoDato();
+        Coltxt = new CampoDato();
         Coltxt.setForeground(Color.black);
         Coltxt.setBounds(670, 300, 200, 30);
         Coltxt.setBorder(null);
@@ -152,7 +151,6 @@ EditarCliente(int id) {
         Municipio.setBounds(0, 210, 300, 300);
         Clientes.add(Municipio);
 
-        //JComboBox Municipiotxt = new JComboBox();
         Municipiotxt = new CampoDato();
         Municipiotxt.setForeground(Color.black);
         Municipiotxt.setBounds(128, 350, 200, 30);
@@ -168,7 +166,7 @@ EditarCliente(int id) {
         Estado.setBounds(427, 210, 100, 300);
         Clientes.add(Estado);
 
-         Estadotxt = new CampoDato();
+        Estadotxt = new CampoDato();
         Estadotxt.setForeground(Color.black);
         Estadotxt.setBounds(503, 350, 200, 30);
         Estadotxt.setBorder(null);
@@ -186,18 +184,18 @@ EditarCliente(int id) {
         // Función que se le otorga al boton, siendo guardar los datos en la BDD 
         Agregar.addActionListener(new ActionListener() {
             @Override
+            // Agrega datos a la BDD
             public void actionPerformed(ActionEvent ae) {
 
-            ModeloTabla_Cliente model = new ModeloTabla_Cliente("dirtycod_dirty", "dirtycode");
-            model.actualizaEstatus(id);
+                ModeloTabla_Cliente model = new ModeloTabla_Cliente("dirtycod_dirty", "dirtycode");
+                model.actualizaEstatus(id);
 
-            try {
+                try {
                     Connection cn;
                     cn = Clase_Conexion.getConexion();
-    
-                     psd = cn.prepareStatement("UPDATE CLIENTE SET NOMBRE_CLIENTE=?,NUMERO_CALLE=?,CALLE_CLIENTE=?,COLONIA_CLIENTE=?,MUNICIPIO_CLIENTE=?,ESTADO_CLIENTE=?,CORREO_CLIENTE=?,TELEFONO_CLIENTE=? WHERE IDCLIENTE="+id);
-                    
-                    
+
+                    psd = cn.prepareStatement("UPDATE CLIENTE SET NOMBRE_CLIENTE=?,NUMERO_CALLE=?,CALLE_CLIENTE=?,COLONIA_CLIENTE=?,MUNICIPIO_CLIENTE=?,ESTADO_CLIENTE=?,CORREO_CLIENTE=?,TELEFONO_CLIENTE=? WHERE IDCLIENTE=" + id);
+
                     psd.setString(1, NombreResponsabletxt.getText());
                     psd.setString(2, Numtxt.getText());
                     psd.setString(3, Calletxt.getText());
@@ -206,30 +204,24 @@ EditarCliente(int id) {
                     psd.setString(6, Estadotxt.getText());
                     psd.setString(7, Correotxt.getText());
                     psd.setString(8, Telefonotxt.getText());
-                 
-              
-             
-                  
-              int res = psd.executeUpdate();
+
+                    int res = psd.executeUpdate();
                     if (res > 0) {
                         JOptionPane.showMessageDialog(null, "Registro Modificado");
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al Modificar Registro");
                     }
-                   
 
-                     cn.close();
+                    cn.close();
                 } catch (SQLException ex) {
                     System.err.println("Error en: " + ex);
                 }
-  
-            modelo.actualizaEstatus();
-            
 
-    
-            }});
+                modelo.actualizaEstatus();
 
+            }
+        });
 
         JLabel background = new JLabel();
 
@@ -240,10 +232,5 @@ EditarCliente(int id) {
         setVisible(true);
 
     }
-
-//    public static void main(String[] args) {
-////int id=0;
-////        new EditarCliente(id);
-////    }
 
 }
